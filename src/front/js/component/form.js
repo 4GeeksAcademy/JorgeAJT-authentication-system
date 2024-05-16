@@ -8,6 +8,7 @@ export const Form = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errorMessagePasswords, setErrorMessagePasswords] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
@@ -62,15 +63,15 @@ export const Form = () => {
                         </button>
                     </div>
                 }
-                <button className="form--submit">
+                <button className="form--submit" >
                     {buttonText}
                 </button>
-                {errorMessagePasswords &&           
+                {errorMessagePasswords &&          
                 <div className="alert alert-danger mt-4 py-2" role="alert">
-                    Your passwords must match
+                    Your passwords must coincide
                 </div>
                 }
-                {store.errorMessage &&           
+                {!errorMessagePasswords && store.error &&
                 <div className="alert alert-danger mt-4 py-2" role="alert">
                     {store.error}
                 </div>

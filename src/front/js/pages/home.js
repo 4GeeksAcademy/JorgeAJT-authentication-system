@@ -9,6 +9,7 @@ export const Home = () => {
 
 	useEffect(() => {
         actions.setNewUser(false)
+		actions.setError(undefined)
       }, []); 
 
 	return (

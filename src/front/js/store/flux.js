@@ -3,8 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			auth: false, 
 			newUser: false,
-			error: "",
-			errorMessage: false
+			error: undefined
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -19,17 +18,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
 					.then(response => {
-						if(response.status == 200) setStore({ auth: true })
+						if(response.status == 200) {
+							setStore({ auth: true })
+							setStore({ error: undefined })
+						}
 						return response.json()
 					})
 					.then(data => {
 						if(data.error) {
 							setStore({ error: data.error })
-							setStore({ errorMessage: true })
 						}
 						if(data.access_token) {
 							localStorage.setItem("token", data.access_token)
-							setStore({ errorMessage: false })
 						}
 					});
 			},
@@ -46,16 +46,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => {
 					if(response.status == 200) {
 						setStore({ newUser: true })
-						setStore({ errorMessage: false })
+						setStore({ error: undefined })
 					}
 					return response.json()
 				})
 				.then(data => {
 					if(data.error) {
 						setStore({ error: data.error })
-						setStore({ errorMessage: true })
 					}
-					else setStore({ errorMessage: false })
 				})
 			},
 			logout: () => {
@@ -64,6 +62,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setNewUser: (value) => {
 				setStore({ newUser: value })
+			},
+			setError: (value) => {
+				setStore({ error: value })
 			},
 			loadBeginning: () => {
 				if(localStorage.getItem("token")) return setStore({ auth: true })
