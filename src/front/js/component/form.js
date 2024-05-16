@@ -8,7 +8,6 @@ export const Form = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errorMessagePasswords, setErrorMessagePasswords] = useState(false)
-    const [errorMessage, setErrorMessage] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 

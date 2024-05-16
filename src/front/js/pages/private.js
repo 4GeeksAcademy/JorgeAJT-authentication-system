@@ -10,24 +10,33 @@ export const Private = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-	  if (!store.auth) {
-		const timerId = setTimeout(() => {
-		  navigate("/login");
-		}, 4000);
-		return () => clearTimeout(timerId);
-	  }
+		// actions.verifyPrivacy()
+		
+		// if (!store.auth || !localStorage.getItem("token")) {
+		// 	const timerId = setTimeout(() => {
+		//   	navigate("/login");
+		// 	}, 4000);
+		// 	return () => clearTimeout(timerId);
+	  	// }
+
+	  	if (!store.auth) {
+			const timerId = setTimeout(() => {
+		  	navigate("/login");
+			}, 4000);
+			return () => clearTimeout(timerId);
+	  	}
 	}, [store.auth]); 
 
 	return (
 		<>		
-		{store.auth == false ? 
+		{!store.auth ? 
         <div className="d-flex align-items-center flex-column">
 			<h3 className="text-center mt-5">You're trying to access to a private content, please <strong>login</strong> before </h3>
-			<div class="newtons-cradle">
-				<div class="newtons-cradle__dot"></div>
-				<div class="newtons-cradle__dot"></div>
-				<div class="newtons-cradle__dot"></div>
-				<div class="newtons-cradle__dot"></div>
+			<div className="newtons-cradle">
+				<div className="newtons-cradle__dot"></div>
+				<div className="newtons-cradle__dot"></div>
+				<div className="newtons-cradle__dot"></div>
+				<div className="newtons-cradle__dot"></div>
 			</div>
 		</div>
 		:

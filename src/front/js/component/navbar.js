@@ -9,8 +9,9 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
 				<span className="navbar-brand mb-0 h1">User authentication system</span>
-				{store.auth == true && 
+				{store.auth && 
 				<div className="ml-auto">
+					<span className="fw-bold me-4">{store.username}'s session</span>
 					<Link to="/">
 						<button onClick={actions.logout} className="btn btn-primary">Log out</button>
 					</Link>

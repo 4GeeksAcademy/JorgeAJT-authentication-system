@@ -3,10 +3,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			auth: false, 
 			newUser: false,
-			error: undefined
+			error: undefined, 
+			username: "",
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
 			login: (email, password) => {
 				const requestOptions = {
 					method: 'POST',
@@ -21,6 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						if(response.status == 200) {
 							setStore({ auth: true })
 							setStore({ error: undefined })
+							let usernameEmail = email.split("@")[0];
+							setStore({ username: usernameEmail }) 
 						}
 						return response.json()
 					})
@@ -56,9 +58,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				})
 			},
+			// verifyPrivacy: () => {
+			// 	const token = localStorage.getItem("token");
+			// 	const requestOptions = {
+			// 		method: 'GET',
+			// 		headers: {
+			// 			'Content-Type': 'application/json', 
+			// 			'Authorization': 'Bearer ' + token
+			// 		},
+			// 	};
+			// 	fetch(process.env.BACKEND_URL + "/api/protected", requestOptions)
+			// 	.then(response => response.json)
+			// 	.then(data => setStore({ auth: data.valid }) )
+			// 	.catch(error => {
+			// 		console.error(error)
+            //         return false; 
+            //     })
+			// 	console.log(getStore().auth);
+			// },
 			logout: () => {
 				localStorage.removeItem("token");
 				setStore({ auth: false })
+				setStore({ username: "" })
 			},
 			setNewUser: (value) => {
 				setStore({ newUser: value })

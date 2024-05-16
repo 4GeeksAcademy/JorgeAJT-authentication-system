@@ -7,6 +7,8 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
@@ -47,12 +49,19 @@ def login():
         if prop not in user_data: return jsonify({"error": f"The '{prop}' property of the user is not or is not properly written"}), 400
 
     user = User.query.filter_by(email=user_data["email"]).first()
-
+    print(user_data["email"])
     if user is None or user.email != user_data["email"] or user.password != user_data["password"]:
         return jsonify({"error": "Bad username or password"}), 401
 
     access_token = create_access_token(identity=user_data["email"])
     return jsonify(access_token=access_token)
+
+@api.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+
+    current_user = get_jwt_identity()
+    return jsonify(valid=bool(current_user)), 200
 
 @api.route('/users/<int:user_id>', methods=['DELETE'])
 def del_user(user_id):
